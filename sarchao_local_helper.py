@@ -27,7 +27,7 @@ import yt_dlp
 
 HOST = "127.0.0.1"
 PORT = int(os.environ.get("SARCHAO_HELPER_PORT", "17891"))
-HELPER_VERSION = "1.7"
+HELPER_VERSION = "1.8"
 MUTEX_NAME = os.environ.get("SARCHAO_HELPER_MUTEX_NAME", "Local\\SarchaoLocalHelperSingletonV1")
 MAX_FILE_BYTES = 1024 * 1024 * 1024
 ALLOWED_PRODUCTION_ORIGINS = frozenset({
@@ -537,6 +537,8 @@ class HelperState:
         self.resource_dir = resource_directory()
         self.download_dir = configured_download_directory()
         self.ffmpeg = self.resource_dir / "ffmpeg.exe"
+        self.ffprobe = self.resource_dir / "ffprobe.exe"
+        os.environ["PATH"] = str(self.resource_dir) + os.pathsep + os.environ.get("PATH", "")
 
     def settings(self) -> dict:
         with self.lock:
@@ -634,7 +636,7 @@ class HelperState:
                 "fragment_retries": 3, "concurrent_fragment_downloads": 4,
                 "socket_timeout": 30, "quiet": True, "no_warnings": True,
                 "progress_hooks": [progress], "postprocessor_hooks": [progress],
-                "ffmpeg_location": str(self.resource_dir), "remote_components": {"ejs:github"},
+                "ffmpeg_location": str(self.ffmpeg), "remote_components": {"ejs:github"},
                 "cachedir": str(cache_directory() / "yt-dlp"),
                 "merge_output_format": "mp4",
             }
