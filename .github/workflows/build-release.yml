@@ -26,6 +26,7 @@ jobs:
           python -m pip install -r requirements.txt
           choco install ffmpeg -y --no-progress
           Copy-Item (Get-Command ffmpeg).Source ffmpeg.exe
+          Copy-Item (Get-Command ffprobe).Source ffprobe.exe
       - name: Prepare build inputs
         shell: pwsh
         run: |
@@ -36,7 +37,7 @@ jobs:
       - name: Upload workflow artifact
         uses: actions/upload-artifact@v4
         with:
-          name: Sarchao-Local-Helper-v1.7
+          name: Sarchao-Local-Helper-v1.8
           path: dist/Sarchao-Local-Helper.exe
       - name: Create GitHub release
         if: startsWith(github.ref, 'refs/tags/')
