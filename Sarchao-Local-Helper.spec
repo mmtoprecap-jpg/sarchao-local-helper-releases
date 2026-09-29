@@ -3,7 +3,7 @@
 a = Analysis(
     ['sarchao_local_helper.py'],
     pathex=['vendor'],
-    binaries=[('ffmpeg.exe', '.')],
+    binaries=[('ffmpeg.exe', '.'), ('ffprobe.exe', '.')],
     datas=[('vendor/yt_dlp_plugins', 'vendor/yt_dlp_plugins')],
     hiddenimports=[],
     hookspath=[],
